@@ -1,0 +1,15 @@
+[server]
+    readTimeout = 2000
+    writeTimeout = 2000
+
+[email]
+    from = "no-reply@example.com"
+    host = "smtp.example.com"
+    port = 25
+    user = "username"
+    password = "your password"
+
+[weixin]
+    corpId = "wx09a40c847b230346"
+    agentId = "0"
+    corpsecret = "VSs6NvvrVSjVSIM4FnqJWz8k5kq6S3ZW3gkfORJbVGc"

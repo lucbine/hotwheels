@@ -11,6 +11,10 @@ import (
 	"fmt"
 	"hotwheels/agent/internal/config"
 	"hotwheels/agent/internal/logger"
+	"hotwheels/agent/service"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 /*
@@ -34,5 +38,19 @@ func main() {
 	if err := logger.InitLog(); err != nil {
 		panic(err)
 	}
+
+	//初始化job
+	service.InitCronJob()
+
+	//监控通知信号
+	exitChan := make(chan int)
+	signalChan := make(chan os.Signal, 1)
+	go func() {
+		<-signalChan
+		fmt.Println("signal received")
+		exitChan <- 1
+	}()
+	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
+	<-exitChan
 
 }

@@ -82,7 +82,17 @@ func Env() string {
 	return cw.Env
 }
 
+func splitKey(key string) []string {
+	return strings.SplitN(key, ".", 2)
+}
+
 //配置文件解析
 func Unmarshal(fileName string, rawVal interface{}) error {
 	return cw.Vipers[fileName].Unmarshal(rawVal)
+}
+
+//获得配置信息
+func GetString(key string) (res string) {
+	keys := splitKey(key)
+	return cw.Vipers[keys[0]].GetString(keys[1])
 }

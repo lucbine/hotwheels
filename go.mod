@@ -3,15 +3,21 @@ module hotwheels
 go 1.13
 
 require (
+	github.com/astaxie/beego v1.12.2 // indirect
+	github.com/foolin/gin-template v0.0.0-20190415034731-41efedfb393b
+	github.com/gin-gonic/gin v1.6.3
+	github.com/jinzhu/gorm v1.9.14
+	github.com/jordan-wright/email v0.0.0-20200602115436-fd8a7622303e
+	github.com/json-iterator/go v1.1.10
+	github.com/kardianos/osext v0.0.0-20190222173326-2bc1f35cddc0 // indirect
 	github.com/lisijie/cron v0.0.0-20151225081149-1c5ac61b9f22 // indirect
-	github.com/lucbine/cron v1.2.0
-	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
+	github.com/lisijie/webcron v1.1.0 // indirect
+	github.com/lucbine/cron v1.2.0 // indirect
+	github.com/pkg/errors v0.8.1
+	github.com/robfig/cron v1.2.0 // indirect
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/spf13/viper v1.7.0
-	github.com/stretchr/testify v1.4.0 // indirect
+	github.com/willas/overseer v0.0.0-20190528035425-f94ce62a52d6
 	go.uber.org/zap v1.10.0
-	golang.org/x/sys v0.0.0-20200615200032-f1bc736245b1 // indirect
-	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
-	gopkg.in/yaml.v2 v2.2.8 // indirect
 )

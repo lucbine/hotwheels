@@ -1,0 +1,9 @@
+[hotwheels]
+    host="127.0.0.1"
+    port=3306
+    dbname="hotwheels"
+    username="root"
+    password="123456"
+    charset="utf8mb4"
+    read_timeout="2000ms"
+    write_timeout="1000ms"

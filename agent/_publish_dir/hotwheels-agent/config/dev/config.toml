@@ -1,2 +1,9 @@
-[log_report]
-    url=""
+[server]
+    url = "http://127.0.0.1:9099"
+    timeout = ""
+
+#拉去定时任务
+[cron]
+    checkInterval = "*/5 * * * * ?"
+
+
