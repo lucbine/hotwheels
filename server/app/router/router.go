@@ -18,6 +18,7 @@ import (
 
 func InitRouter() *gin.Engine {
 	router := gin.New()
+
 	gin.SetMode(runMode())
 
 	//添加健康检查响应,请勿删除
@@ -25,6 +26,7 @@ func InitRouter() *gin.Engine {
 		c.String(http.StatusOK, "OK")
 	})
 
+	//api
 	apiGroup := router.Group("/api")
 	{
 		//agent 接口
@@ -37,15 +39,69 @@ func InitRouter() *gin.Engine {
 		apiGroup.GET("/admin/taskList", api.TaskList)
 		apiGroup.GET("/admin/stat", api.Stat)
 	}
-
+	//web
+	//设置静态文件地址
+	router.Static("/static", "./static")
+	//router.StaticFile("/favicon.ico", "./favicon.ico") //设置图标
+	//router.LoadHTMLGlob("layout/*")
 	router.HTMLRender = gintemplate.New(gintemplate.TemplateConfig{
-		Root:         "view",
-		Extension:    ".html",
-		Master:       "layout/master",
+		Root:      "view",
+		Extension: ".html",
+		//Master:    "layout/master",
+		Partials: []string{
+			"layout/header",
+			"layout/footer",
+		},
 		DisableCache: true,
 	})
 
+	gin.IsDebugging()
+
+	//首页
 	router.GET("/", web.Index)
+
+	//登录页
+	router.GET("/login", web.Login)
+
+	//帮助页
+	router.GET("/help", web.Help)
+
+	//任务
+	taskGroup := router.Group("/task")
+	{
+		taskGroup.GET("/list", web.TaskList)
+		taskGroup.GET("/add", web.TaskAdd)
+	}
+
+	//节点
+	nodeGroup := router.Group("/node")
+	{
+		nodeGroup.GET("/list", web.NodeList)
+		nodeGroup.GET("/edit", web.NodeEdit)
+	}
+
+	//分组
+	gGroup := router.Group("/group")
+	{
+		gGroup.GET("/list", web.GroupList)
+		gGroup.GET("/add", web.GroupAdd)
+		gGroup.GET("/edit", web.GroupAdd)
+
+	}
+
+	//alarm 告警
+	alarmGroup := router.Group("/alarm")
+	{
+		alarmGroup.GET("/list", web.Login)
+
+	}
+
+	//日志
+	logGroup := router.Group("/log")
+	{
+		logGroup.GET("/list", web.Login)
+
+	}
 
 	return router
 }

@@ -23,7 +23,7 @@ import (
 )
 
 func main() {
-	serverAddr := fmt.Sprintf(":9821")
+	serverAddr := fmt.Sprintf(":9528")
 	file, err := exec.LookPath(os.Args[0])
 
 	if err != nil {

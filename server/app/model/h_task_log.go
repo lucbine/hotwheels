@@ -24,17 +24,12 @@ type HtaskLogModel struct {
 	UpdateTime  time.Time `gorm:"column:update_time" json:"update_time"`
 }
 
-//构造函数
-func NewHtaskLogModel() *HtaskLogModel {
-	return &HtaskLogModel{}
-}
-
 //指定表
-func (m *HtaskLogModel) TableName() string {
+func (m HtaskLogModel) TableName() string {
 	return "content"
 }
 
-func (m *HtaskLogModel) Search(where string, bind []interface{}, offset int, limit int, orderBy string) (result []HtaskModel, err error) {
+func (m HtaskLogModel) Search(where string, bind []interface{}, offset int, limit int, orderBy string) (result []HtaskModel, err error) {
 	err = core.DB.Table(m.TableName()).Where(where, bind...).Order(orderBy).Offset(offset).Limit(limit).Find(&result).Error
 	if gorm.IsRecordNotFoundError(err) {
 		return result, nil

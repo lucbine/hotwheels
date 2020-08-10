@@ -13,7 +13,7 @@ import (
 )
 
 //记录结构体
-type HtaskGroupModel struct {
+type HGroupTaskModel struct {
 	Id          int       `gorm:"column:id" json:"id"`
 	TaskId      int64     `gorm:"column:task_id" json:"task_id"`
 	output      string    `gorm:"column:output" json:"output"`
@@ -25,16 +25,16 @@ type HtaskGroupModel struct {
 }
 
 //构造函数
-func NewHtaskGroupModel() *HtaskGroupModel {
-	return &HtaskGroupModel{}
+func NewHGroupTaskModel() *HGroupTaskModel {
+	return &HGroupTaskModel{}
 }
 
 //指定表
-func (m *HtaskGroupModel) TableName() string {
+func (m *HGroupTaskModel) TableName() string {
 	return "content"
 }
 
-func (m *HtaskGroupModel) Search(where string, bind []interface{}, offset int, limit int, orderBy string) (result []HtaskModel, err error) {
+func (m *HGroupTaskModel) Search(where string, bind []interface{}, offset int, limit int, orderBy string) (result []HtaskModel, err error) {
 	err = core.DB.Table(m.TableName()).Where(where, bind...).Order(orderBy).Offset(offset).Limit(limit).Find(&result).Error
 	if gorm.IsRecordNotFoundError(err) {
 		return result, nil
