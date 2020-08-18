@@ -1,7 +1,7 @@
 /*
-@Time : 2020/7/15 11:13 下午
+@Time : 2020/8/12 3:27 下午
 @Author : lucbine
-@File : response.go
+@File : json.go
 */
 package response
 
@@ -14,7 +14,7 @@ import (
 )
 
 // 发送接口 json 响应
-func Json(ctx *gin.Context, err *errcode.Err, data interface{}) {
+func Json(ctx *gin.Context, err *errcode.Err, data interface{}, ext ...map[string]interface{}) {
 	if data == nil {
 		data = struct{}{}
 	}
@@ -24,6 +24,11 @@ func Json(ctx *gin.Context, err *errcode.Err, data interface{}) {
 		"showErr":     0,
 		"currentTime": time.Now().Unix(),
 		"data":        data,
+	}
+	if len(ext) > 0 {
+		for key, value := range ext[0] {
+			resp[key] = value
+		}
 	}
 	if err.Code < 0 {
 		ctx.Set("errCode", err.Code)

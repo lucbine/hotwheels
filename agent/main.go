@@ -10,11 +10,14 @@ import (
 	"flag"
 	"fmt"
 	"hotwheels/agent/internal/config"
+	"hotwheels/agent/internal/core"
 	"hotwheels/agent/internal/logger"
 	"hotwheels/agent/service"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/robfig/cron/v3"
 )
 
 /*
@@ -39,8 +42,21 @@ func main() {
 		panic(err)
 	}
 
+	//初始化 redis
+	if err := core.InitRedis(); err != nil {
+		panic(err)
+	}
+
 	//初始化job
-	service.InitCronJob()
+	c := cron.New(cron.WithSeconds())
+	service.InitCronJob(c)
+
+	//心跳检查 Heartbeat check
+	hc := cron.New(cron.WithSeconds())
+	hc.AddFunc("*/5 * * * * ?", func() {
+		//service.NewNode().Check()
+	})
+	hc.Start()
 
 	//监控通知信号
 	exitChan := make(chan int)
@@ -48,6 +64,8 @@ func main() {
 	go func() {
 		<-signalChan
 		fmt.Println("signal received")
+		c.Stop()
+		hc.Stop()
 		exitChan <- 1
 	}()
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)

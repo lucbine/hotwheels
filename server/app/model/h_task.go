@@ -16,8 +16,9 @@ import (
 //记录结构体
 type HtaskModel struct {
 	Id              int       `gorm:"column:id" json:"id"`
-	UserId          int64     `gorm:"column:user_id" json:"user_id"`
-	GroupId         string    `gorm:"column:group_id" json:"group_id"`
+	UserId          int       `gorm:"column:user_id" json:"user_id"`
+	GroupId         int       `gorm:"column:group_id" json:"group_id"`
+	TaskUser        string    `gorm:"column:task_user" json:"task_user"`
 	TaskName        string    `gorm:"column:task_name" json:"task_name"`
 	TaskType        string    `gorm:"column:task_type" json:"task_type"`
 	Description     string    `gorm:"column:description" json:"description"`

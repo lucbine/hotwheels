@@ -13,6 +13,8 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+	"sync"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -21,6 +23,7 @@ type configWrap struct {
 	ConfigPath string //配置文件逻辑
 	Env        string //环境
 	Vipers     map[string]*viper.Viper
+	sync.RWMutex
 }
 
 const ConfigFileType = "toml"
@@ -95,4 +98,71 @@ func Unmarshal(fileName string, rawVal interface{}) error {
 func GetString(key string) (res string) {
 	keys := splitKey(key)
 	return cw.Vipers[keys[0]].GetString(keys[1])
+}
+
+func Get(key string) interface{} {
+	keys := splitKey(key)
+	cw.RLock()
+	defer cw.RUnlock()
+	return cw.Vipers[keys[0]].Get(keys[1])
+}
+
+func GetBool(key string) bool {
+	keys := splitKey(key)
+	cw.RLock()
+	defer cw.RUnlock()
+	return cw.Vipers[keys[0]].GetBool(keys[1])
+}
+
+func GetFloat64(key string) float64 {
+	keys := splitKey(key)
+	cw.RLock()
+	defer cw.RUnlock()
+	return cw.Vipers[keys[0]].GetFloat64(keys[1])
+}
+
+func GetInt(key string) int {
+	keys := splitKey(key)
+	cw.RLock()
+	defer cw.RUnlock()
+	return cw.Vipers[keys[0]].GetInt(keys[1])
+}
+
+func GetInt32(key string) int32 {
+	keys := splitKey(key)
+	cw.RLock()
+	defer cw.RUnlock()
+	return cw.Vipers[keys[0]].GetInt32(keys[1])
+}
+
+func GetInt64(key string) int64 {
+	keys := splitKey(key)
+	cw.RLock()
+	defer cw.RUnlock()
+	return cw.Vipers[keys[0]].GetInt64(keys[1])
+}
+
+func GetTime(key string) time.Time {
+	keys := splitKey(key)
+	cw.RLock()
+	defer cw.RUnlock()
+	return cw.Vipers[keys[0]].GetTime(keys[1])
+}
+
+func GetDuration(key string) time.Duration {
+	keys := splitKey(key)
+	cw.RLock()
+	defer cw.RUnlock()
+	return cw.Vipers[keys[0]].GetDuration(keys[1])
+}
+
+func IsSet(key string) bool {
+	keys := splitKey(key)
+	cw.RLock()
+	defer cw.RUnlock()
+	if len(keys) == 1 {
+		_, ok := cw.Vipers[keys[0]]
+		return ok
+	}
+	return cw.Vipers[keys[0]].IsSet(keys[1])
 }

@@ -27,17 +27,21 @@ func InitRouter() *gin.Engine {
 	})
 
 	//api
-	apiGroup := router.Group("/api")
+	apiGroup := router.Group("/api/agent")
 	{
 		//agent 接口
-		apiGroup.GET("/agent/report", api.Report)
-		apiGroup.POST("/agent/jobList", api.JobList)
+		apiGroup.POST("/report", api.Report)
+		apiGroup.GET("/jobList", api.JobList)
+		apiGroup.POST("/hc", api.Hc)
+	}
 
+	adminGroup := router.Group("/api/admin")
+	{
 		//admin 接口
-		apiGroup.POST("/admin/addTask", api.AddTask)
-		apiGroup.POST("/admin/editTask", api.EditTask)
-		apiGroup.GET("/admin/taskList", api.TaskList)
-		apiGroup.GET("/admin/stat", api.Stat)
+		adminGroup.POST("/addTask", api.AddTask)
+		adminGroup.POST("/editTask", api.EditTask)
+		adminGroup.GET("/taskList", api.TaskList)
+		adminGroup.GET("/stat", api.Stat)
 	}
 	//web
 	//设置静态文件地址

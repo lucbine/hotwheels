@@ -1,9 +1,9 @@
 [server]
-    url = "http://127.0.0.1:9099"
+    url = "http://127.0.0.1:9555"
     timeout = ""
 
 #拉去定时任务
 [cron]
-    checkInterval = "*/2 * * * * ?"
+    checkInterval = "*/5 * * * * ?"
 
 

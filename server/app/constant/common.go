@@ -11,3 +11,8 @@ const (
 	EnvDev = "dev"
 	EnvQa  = "qa"
 )
+
+const (
+	NodeStatusOnline  = 1 //  在线 正常状态
+	NodeStatusOffline = 0 //离线  异常状态
+)

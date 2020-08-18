@@ -1,0 +1,11 @@
+[local_cache]
+    addr = "127.0.0.1:6000"
+    password = ""
+    db = 0
+    maxRetries = 2
+    poolSize=100
+    minIdleConns=50
+    dialTimeout = 300
+    readTimeout = 500
+    writeTimeout = 500
+    idleTimeout  = 5000

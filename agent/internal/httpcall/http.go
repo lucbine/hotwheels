@@ -7,6 +7,7 @@ import (
 	"hotwheels/agent/internal/util"
 	"net"
 	"net/http"
+	"net/url"
 	"time"
 
 	jsoniter "github.com/json-iterator/go"
@@ -66,9 +67,9 @@ func Post(httpReq Req, result interface{}) (err error) {
 		}
 	}
 	//默认一秒超时
-	//if httpReq.TimeOut.Milliseconds() <= 0 {
-	//	httpReq.TimeOut = time.Second
-	//}
+	if httpReq.TimeOut.Milliseconds() <= 0 {
+		httpReq.TimeOut = time.Second
+	}
 	//生成http.client
 	client := NewHttpClient(httpReq.TimeOut)
 	resp, err := client.Do(req)
@@ -119,6 +120,55 @@ func Get(httpReq Req, result interface{}) (err error) {
 	//if httpReq.TimeOut.Milliseconds() <= 0 {
 	//	httpReq.TimeOut = time.Second
 	//}
+	//生成http.client
+	client := NewHttpClient(httpReq.TimeOut)
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	//状态码
+	if resp.StatusCode != http.StatusOK {
+		return errors.New(fmt.Sprintf("http status code is %d", resp.StatusCode))
+	}
+	//关闭响应
+	defer resp.Body.Close()
+	err = jsoniter.NewDecoder(resp.Body).Decode(result)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+/*
+	GET 请求
+	url : 请求地址
+	params ： 请求参数
+	setHeader ： 设置头部
+	result ： 返回结果
+*/
+
+func PostForm(httpReq Req, result interface{}) (err error) {
+	postArgs := url.Values{}
+	for key, val := range httpReq.Params {
+		value, _ := util.ConvertString(val)
+		postArgs.Set(key, value)
+	}
+	//构建请求
+	req, err := http.NewRequest("POST", httpReq.Url, bytes.NewBuffer([]byte(postArgs.Encode())))
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	//如果设置了头部
+	if httpReq.Header != nil && len(httpReq.Header) > 0 {
+		for key, val := range httpReq.Header {
+			req.Header.Set(key, val)
+		}
+	}
+	//默认一秒超时
+	if httpReq.TimeOut.Milliseconds() <= 0 {
+		httpReq.TimeOut = time.Second
+	}
 	//生成http.client
 	client := NewHttpClient(httpReq.TimeOut)
 	resp, err := client.Do(req)

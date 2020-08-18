@@ -46,9 +46,3 @@ func (ts *TaskService) List() *errcode.Err {
 
 	return errcode.Success
 }
-
-//节点信息
-func (ts *TaskService) Info() *errcode.Err {
-
-	return errcode.Success
-}

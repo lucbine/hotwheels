@@ -33,3 +33,10 @@ const (
 	TimeFormatMsec   = "2006-01-02 15:04:05.000" // 日期毫秒秒格式
 	TimeFormatClock  = "15:04:05"                // 时钟时间格式
 )
+
+const (
+	JobStatusRunable = 1 //可运行
+	JobStatusStop    = 0 //不可用  停止状态
+
+	JobLock = "job_lock_%d"
+)

@@ -20,3 +20,10 @@ func UpdateErrorWrapper(err error) *errcode.Err {
 	}
 	return errcode.Success
 }
+
+func SelectErrorWrapper(err error) *errcode.Err {
+	if err != nil {
+		return errcode.NewError(errcode.DbSelectErrorCode, err.Error())
+	}
+	return errcode.Success
+}
